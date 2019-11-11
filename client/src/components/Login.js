@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axiosWithAuth from "./utils/axiosWithAuth"
 import { Spinner } from 'reactstrap';
 
 const Login = () => {
@@ -17,7 +18,17 @@ const Login = () => {
   }
 
   const handleSubmit = (e) => {
-
+    e.preventDefault()
+    axiosWithAuth()
+      .post("/api/login", userInfo)
+      .then(res => {
+        console.log(res.data)
+        localStorage.setItem("token", res.data)
+      })
+      .catch(err => {
+        setIsLoading(false)
+        setError(err.response.data.error)
+      })
   }
 
 
@@ -27,9 +38,9 @@ const Login = () => {
     <>
       <h1>Welcome to the Bubble App!</h1>
       <div>
-        <form>
-          <input type="text" name="username" placeholder=" User Name" value={userInfo.username} onchange={handleChange} />
-          <input type="password" name="password" placeholder="Password" value={userInfo.password} onchange={handleChange} />
+        <form onSubmit={handleSubmit}>
+          <input type="text" name="username" placeholder=" User Name" value={userInfo.username} onChange={handleChange} />
+          <input type="password" name="password" placeholder="Password" value={userInfo.password} onChange={handleChange} />
 
           <button type="submit">Login</button>
         </form>
