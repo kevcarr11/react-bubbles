@@ -23,7 +23,7 @@ const Login = () => {
       .post("/api/login", userInfo)
       .then(res => {
         console.log(res.data)
-        localStorage.setItem("token", res.data)
+        localStorage.setItem("token", res.data.payload)
       })
       .catch(err => {
         setIsLoading(false)
