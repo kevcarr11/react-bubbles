@@ -34,9 +34,6 @@ const ColorList = ({ colors, updateColors }) => {
 
       })
       .catch(err => console.log(err))
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
   };
 
   const saveAdd = e => {
@@ -44,16 +41,8 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
     .post(`/api/colors`, colorToAdd)
     .then(res => {
-      // setColorToAdd({...res.data})
       updateColors(res.data)
       setColorToAdd(initialColor)
-      // axiosWithAuth()
-      // .get("/api/colors")
-      //   .then(res => {
-      //     updateColors(res.data)
-      //   })
-      
-      
     })
   } 
 

@@ -4,7 +4,6 @@ import PrivateRoute from "./components/utils/PrivateRoute"
 import BubblePage from "./components/BubblePage"
 import Login from "./components/Login";
 import "./styles.scss";
-import { getToken } from "./components/utils/axiosWithAuth";
 
 function App() {
   

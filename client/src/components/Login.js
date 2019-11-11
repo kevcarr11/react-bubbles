@@ -19,6 +19,7 @@ const Login = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setIsLoading(true)
     axiosWithAuth()
       .post("/api/login", userInfo)
       .then(res => {
@@ -44,7 +45,7 @@ const Login = (props) => {
           <input className="loginInput" type="text" name="username" placeholder=" User Name" value={userInfo.username} onChange={handleChange} />
           <input className="loginInput" type="password" name="password" placeholder="Password" value={userInfo.password} onChange={handleChange} />
 
-          <button type="submit">Login</button>
+          <button type="submit">{isLoading ? <Spinner/> : "Login"}</button>
         </form>
       </div>
     </>

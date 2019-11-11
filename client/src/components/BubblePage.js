@@ -19,12 +19,21 @@ const BubblePage = () => {
         setIsLoading(false)
       })
       .catch(err => console.log(err))
-  },[])
+  }, [])
 
   return (
     <>
-      <ColorList colors={colorList} updateColors={setColorList} />
-      <Bubbles colors={colorList} />
+      {isLoading ? (
+        <div>
+          <Spinner color="dark" />
+        </div>
+      ) : (
+          <>
+            <ColorList colors={colorList} updateColors={setColorList} />
+            <Bubbles colors={colorList} />
+          </>
+        )}
+
     </>
   );
 };
