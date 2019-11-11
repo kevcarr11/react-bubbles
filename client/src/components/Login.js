@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axiosWithAuth from "./utils/axiosWithAuth"
 import { Spinner } from 'reactstrap';
 
-const Login = () => {
+const Login = (props) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState()
   const [userInfo, setUserInfo] = useState({
@@ -24,6 +24,7 @@ const Login = () => {
       .then(res => {
         console.log(res.data)
         localStorage.setItem("token", res.data.payload)
+        props.history.push("/BubblePage")
       })
       .catch(err => {
         setIsLoading(false)
