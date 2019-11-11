@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import PrivateRoute from "./components/utils/PrivateRoute"
 import BubblePage from "./components/BubblePage"
@@ -7,7 +7,7 @@ import "./styles.scss";
 import { getToken } from "./components/utils/axiosWithAuth";
 
 function App() {
-  const loggedIn = getToken()
+  
   return (
     <Router>
       <div className="App">
