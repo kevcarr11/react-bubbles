@@ -20,11 +20,15 @@ const ColorList = ({ colors, updateColors }) => {
   const saveEdit = e => {
     e.preventDefault();
     axiosWithAuth()
-      .put(`/api/colors/${colors.id}`, colorToEdit)
+      .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
         console.log(res.data)
-        updateColors([...colors, res.data])
-        setColorToEdit(initialColor)
+        setColorToEdit(res.data)
+        axiosWithAuth()
+        .get("/api/colors")
+          .then(res => {
+            updateColors(res.data)
+          })
         setEditing(false)
         
 
@@ -40,9 +44,16 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
     .post(`/api/colors`, colorToAdd)
     .then(res => {
-      updateColors([...colors, res.data])
+      // setColorToAdd({...res.data})
+      updateColors(res.data)
       setColorToAdd(initialColor)
-      setEditing(false)
+      // axiosWithAuth()
+      // .get("/api/colors")
+      //   .then(res => {
+      //     updateColors(res.data)
+      //   })
+      
+      
     })
   } 
 
@@ -52,7 +63,7 @@ const ColorList = ({ colors, updateColors }) => {
       updateColors(colors.filter(item => item.id !== color.id))
 
       axiosWithAuth()
-        .delete(`/api/colors/${colors.id}`)
+        .delete(`/api/colors/${color.id}`)
         .then(() => console.log("Color was deleted"))
         .catch(err => console.log(err))
     }
@@ -109,10 +120,10 @@ const ColorList = ({ colors, updateColors }) => {
             <button type="submit">save</button>
             <button onClick={() => setEditing(false)}>cancel</button>
           </div>
-        </form>
+        </form >
       )}
       <div className="spacer" />
-      <form>
+      <form onSubmit={saveAdd} >
         <legend>Add color</legend>
         <label>
           color name:
