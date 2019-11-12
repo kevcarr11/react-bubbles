@@ -24,12 +24,12 @@ const ColorList = ({ colors, updateColors }) => {
       .then(res => {
         console.log(res.data)
         setColorToEdit(res.data)
+        setEditing(false)
         axiosWithAuth()
-        .get("/api/colors")
+          .get("/api/colors")
           .then(res => {
             updateColors(res.data)
           })
-        setEditing(false)
       })
       .catch(err => console.log(err))
   };
@@ -37,12 +37,12 @@ const ColorList = ({ colors, updateColors }) => {
   const saveAdd = e => {
     e.preventDefault()
     axiosWithAuth()
-    .post(`/api/colors`, colorToAdd)
-    .then(res => {
-      updateColors(res.data)
-      setColorToAdd(initialColor)
-    })
-  } 
+      .post(`/api/colors`, colorToAdd)
+      .then(res => {
+        updateColors(res.data)
+        setColorToAdd(initialColor)
+      })
+  }
 
   const deleteColor = color => {
     // make a delete request to delete this color
@@ -134,9 +134,9 @@ const ColorList = ({ colors, updateColors }) => {
           />
         </label>
         <div className="button-row">
-            <button type="submit">save</button>
-            <button onClick={() => setEditing(false)}>cancel</button>
-          </div>
+          <button type="submit">save</button>
+          <button onClick={() => setEditing(false)}>cancel</button>
+        </div>
       </form>
     </div>
   );
