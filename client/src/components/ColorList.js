@@ -20,31 +20,29 @@ const ColorList = ({ colors, updateColors }) => {
   const saveEdit = e => {
     e.preventDefault();
     axiosWithAuth()
-      .put(`/api/colors/${colors.id}`, colorToEdit)
+      .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
         console.log(res.data)
-        updateColors([...colors, res.data])
-        setColorToEdit(initialColor)
+        setColorToEdit(res.data)
         setEditing(false)
-        
-
+        axiosWithAuth()
+          .get("/api/colors")
+          .then(res => {
+            updateColors(res.data)
+          })
       })
       .catch(err => console.log(err))
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
   };
 
   const saveAdd = e => {
     e.preventDefault()
     axiosWithAuth()
-    .post(`/api/colors`, colorToAdd)
-    .then(res => {
-      updateColors([...colors, res.data])
-      setColorToAdd(initialColor)
-      setEditing(false)
-    })
-  } 
+      .post(`/api/colors`, colorToAdd)
+      .then(res => {
+        updateColors(res.data)
+        setColorToAdd(initialColor)
+      })
+  }
 
   const deleteColor = color => {
     // make a delete request to delete this color
@@ -52,7 +50,7 @@ const ColorList = ({ colors, updateColors }) => {
       updateColors(colors.filter(item => item.id !== color.id))
 
       axiosWithAuth()
-        .delete(`/api/colors/${colors.id}`)
+        .delete(`/api/colors/${color.id}`)
         .then(() => console.log("Color was deleted"))
         .catch(err => console.log(err))
     }
@@ -109,10 +107,10 @@ const ColorList = ({ colors, updateColors }) => {
             <button type="submit">save</button>
             <button onClick={() => setEditing(false)}>cancel</button>
           </div>
-        </form>
+        </form >
       )}
       <div className="spacer" />
-      <form>
+      <form onSubmit={saveAdd} >
         <legend>Add color</legend>
         <label>
           color name:
@@ -136,9 +134,9 @@ const ColorList = ({ colors, updateColors }) => {
           />
         </label>
         <div className="button-row">
-            <button type="submit">save</button>
-            <button onClick={() => setEditing(false)}>cancel</button>
-          </div>
+          <button type="submit">save</button>
+          <button onClick={() => setEditing(false)}>cancel</button>
+        </div>
       </form>
     </div>
   );
